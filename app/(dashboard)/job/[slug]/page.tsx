@@ -9,7 +9,7 @@ const JOBDetails = async ({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
   searchParams?: Record<string, string | string[] | undefined>;
 }) => {
   const jobId = Array.isArray(searchParams?.id)
