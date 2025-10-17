@@ -5,12 +5,17 @@ import { Job } from "@/types/job";
 import { BadgeInfoIcon } from "lucide-react";
 import React from "react";
 
+
+type PageProps = {
+  params: { slug: string };
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
 const JOBDetails = async ({
+  params,
   searchParams,
-}: {
-  searchParams: Record<string, string | string[]>;
-}) => {
-  const jobId = searchParams.id;
+}: PageProps) => {
+  const jobId = searchParams?.id;
   const res = await fetch(`https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}`,{
       method:'GET',
       headers:{
