@@ -4,7 +4,13 @@ import { SearchComponentVert } from "./FilterComponent";
 import JobCard from "./JobCard";
 import { Job } from "@/types/job";
 import { ClosedCaptionIcon, FilterIcon, LoaderIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import { Button } from "./ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 
@@ -42,8 +48,7 @@ const VisualDisplay = ({ initialData }: VisualDisplayProps) => {
         {
           method: "GET",
           headers: {
-            "X-RapidAPI-Key":
-              process.env.RapidApiKey as string,
+            "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RapidApiKey as string,
             "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
           },
         }
@@ -77,20 +82,19 @@ const VisualDisplay = ({ initialData }: VisualDisplayProps) => {
   return (
     <>
       <div className="py-7 lg:hidden">
-        <Dialog > 
+        <Dialog>
           <DialogTrigger className=" block w-full px-4" asChild>
             <div>
-                <Button className="w-full rounded-none bg-blue-700 " size="lg">
-              <FilterIcon /> Filter
-            </Button>
+              <Button className="w-full rounded-none bg-blue-700 " size="lg">
+                <FilterIcon /> Filter
+              </Button>
             </div>
           </DialogTrigger>
-          
-          <DialogContent>
-                    <DialogHeader>
-          <DialogTitle>Filter Job Search</DialogTitle>
 
-        </DialogHeader>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Filter Job Search</DialogTitle>
+            </DialogHeader>
 
             <div className="mt-5">
               <SearchComponentVert
