@@ -2,7 +2,6 @@ import VisualDisplay from "@/components/VisualDisplay";
 
 export default async function Home() {
 
-  const defaultQuery = 'jobs in nigeria'
   const res = await fetch(`https://jsearch.p.rapidapi.com/search?query=jobs`,{
     method:'GET',
     headers:{
