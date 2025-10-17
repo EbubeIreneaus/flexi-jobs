@@ -7,7 +7,7 @@ import React from "react";
 
 
 type PageProps = {
-  params: { slug: string };
+   params: { slug: string }; // ✅ correct
   searchParams?: Record<string, string | string[] | undefined>;
 };
 
@@ -15,7 +15,9 @@ const JOBDetails = async ({
   params,
   searchParams,
 }: PageProps) => {
-  const jobId = searchParams?.id;
+  const jobId = Array.isArray(searchParams?.id)
+    ? searchParams?.id[0]
+    : searchParams?.id;
   const res = await fetch(`https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}`,{
       method:'GET',
       headers:{
