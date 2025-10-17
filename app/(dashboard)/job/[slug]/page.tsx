@@ -10,11 +10,10 @@ const JOBDetails = async ({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) => {
-  const jobId = Array.isArray(searchParams?.id)
-    ? searchParams?.id[0]
-    : searchParams?.id;
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const jobId = resolvedSearchParams?.id
   const res = await fetch(
     `https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}`,
     {
