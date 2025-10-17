@@ -5,29 +5,29 @@ import { Job } from "@/types/job";
 import { BadgeInfoIcon } from "lucide-react";
 import React from "react";
 
-
-type PageProps = {
-   params: { slug: string }; // ✅ correct
-  searchParams?: Record<string, string | string[] | undefined>;
-};
-
 const JOBDetails = async ({
   params,
   searchParams,
-}: PageProps) => {
+}: {
+  params: { slug: string };
+  searchParams?: Record<string, string | string[] | undefined>;
+}) => {
   const jobId = Array.isArray(searchParams?.id)
     ? searchParams?.id[0]
     : searchParams?.id;
-  const res = await fetch(`https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}`,{
-      method:'GET',
-      headers:{
-        'X-RapidAPI-Key': process.env.RapidApiKey as string,
-        'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
-      }
-    }).then(res=>res.json());
+  const res = await fetch(
+    `https://jsearch.p.rapidapi.com/job-details?job_id=${jobId}`,
+    {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": process.env.RapidApiKey as string,
+        "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
+      },
+    }
+  ).then((res) => res.json());
 
   const job: Job = res?.data[0];
-  
+
   return (
     <div className="max-w-5xl w-full px-5 py-10">
       <Card>
@@ -48,14 +48,18 @@ const JOBDetails = async ({
 
             <div className="py-7 flex flex-col lg:flex-row lg:items-center gap-5 px-5 border-b border-primary/20">
               <div>
-                <img src={job.employer_logo || ''} alt="company logo" width={200} height={200} className="w-[150px] rounded-sm" />
+                <img
+                  src={job.employer_logo || ""}
+                  alt="company logo"
+                  width={200}
+                  height={200}
+                  className="w-[150px] rounded-sm"
+                />
               </div>
               <div>
                 <h1 className="text-lg mb-3">{job.job_title}</h1>
                 <p className="mb-2 text-primary/60"> {job.employer_name} </p>
-                <p className="mb-4 text-primary/60">
-                  {job.job_location}
-                </p>
+                <p className="mb-4 text-primary/60">{job.job_location}</p>
                 <div className="flex flex-wrap  gap-3 mb-3">
                   <p className="border px-4 py-1 rounded-sm bg-slate-200">
                     {job.job_country}
@@ -64,7 +68,7 @@ const JOBDetails = async ({
                     {job.job_employment_type || "Full Time"}
                   </p>
                   <p className="border px-4 py-1 rounded-sm bg-slate-200">
-                   {formatMoney(job.job_min_salary)} / {job.job_salary_period}
+                    {formatMoney(job.job_min_salary)} / {job.job_salary_period}
                   </p>
                 </div>
               </div>
@@ -79,13 +83,15 @@ const JOBDetails = async ({
 
                 <ul className="*:grid *:grid-cols-2 *:gap-x-7 *:mb-3 max-w-md *:list-decimal *:list-outside">
                   <li>
-                    <span className="font-bold">Minimum Requirement:</span> {job.job_employment_type}
+                    <span className="font-bold">Minimum Requirement:</span>{" "}
+                    {job.job_employment_type}
                   </li>
                   <li>
                     <span className="font-bold">Experience Level:</span> Any
                   </li>
                   <li>
-                    <span className="font-bold">Job Type:</span> {job.job_is_remote ? "Remote" : "Onsite"}
+                    <span className="font-bold">Job Type:</span>{" "}
+                    {job.job_is_remote ? "Remote" : "Onsite"}
                   </li>
                 </ul>
               </div>
@@ -101,27 +107,41 @@ const JOBDetails = async ({
                   Responsibilities
                 </h3>
                 <ul className="px-5 list-disc">
-                {job.job_highlights?.Responsibilities?.map((responsibility, index) => (
-                    <li key={index} className="text-sm mb-2.5">{responsibility}</li>
-                  ))}
+                  {job.job_highlights?.Responsibilities?.map(
+                    (responsibility, index) => (
+                      <li key={index} className="text-sm mb-2.5">
+                        {responsibility}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
 
               <div className="mb-4">
                 <h3 className="font-bold mb-3 text-black/50">Requirements</h3>
                 <ul className="px-5 list-disc">
-                {job.job_highlights?.Qualifications?.map((qualification, index) => (
-                    <li key={index} className="text-sm mb-2.5">{qualification}</li>
-                  ))}
+                  {job.job_highlights?.Qualifications?.map(
+                    (qualification, index) => (
+                      <li key={index} className="text-sm mb-2.5">
+                        {qualification}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
 
               <div>
                 <h3 className="font-bold mb-3 text-black/50">
-                  Remuneration: <span>{formatMoney(job.job_min_salary)} / {job.job_salary_period}</span>
+                  Remuneration:{" "}
+                  <span>
+                    {formatMoney(job.job_min_salary)} / {job.job_salary_period}
+                  </span>
                 </h3>
                 <h3 className="font-bold mb-3 text-black/50">
-                  Location: <span>{job.job_location} {job.job_state}, {job.job_country}</span>
+                  Location:{" "}
+                  <span>
+                    {job.job_location} {job.job_state}, {job.job_country}
+                  </span>
                 </h3>
               </div>
             </div>
@@ -162,10 +182,10 @@ const JOBDetails = async ({
 
 export default JOBDetails;
 
- function formatMoney(amount: number | null) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumIntegerDigits: 1,
-    }).format(amount || 0);
-  }
+function formatMoney(amount: number | null) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumIntegerDigits: 1,
+  }).format(amount || 0);
+}
